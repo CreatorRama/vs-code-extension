@@ -1,0 +1,120 @@
+{
+  "name": "code-assistant",
+  "displayName": "AI Code Assistant",
+  "description": "AI-powered coding assistant with DeepSeek integration",
+  "version": "0.0.1",
+  "publisher": "your-publisher-name",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Other",
+    "Machine Learning"
+  ],
+  "keywords": [
+    "ai",
+    "assistant",
+    "code",
+    "deepseek",
+    "chat"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "code-assistant.openChat",
+        "title": "Open AI Code Assistant",
+        "category": "AI Assistant",
+        "icon": "$(comment-discussion)"
+      },
+      {
+        "command": "code-assistant.focusChat",
+        "title": "Focus AI Chat Panel",
+        "category": "AI Assistant"
+      }
+    ],
+    "views": {
+      "explorer": [
+        {
+          "id": "code-assistant.chatView",
+          "name": "AI Code Assistant (Sidebar)",
+          "when": "true",
+          "type": "webview"
+        }
+      ],
+      "panel": [
+        {
+          "id": "code-assistant.chatPanel",
+          "name": "AI Code Assistant",
+          "when": "true",
+          "type": "webview"
+        }
+      ]
+    },
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "code-assistant.openChat",
+          "when": "true"
+        },
+        {
+          "command": "code-assistant.focusChat",
+          "when": "true"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "code-assistant.openChat",
+          "when": "view == code-assistant.chatView || view == code-assistant.chatPanel",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "AI Code Assistant",
+      "properties": {
+        "aiCodeAssistant.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "DeepSeek API Key (required)",
+          "scope": "application"
+        },
+        "aiCodeAssistant.apiUrl": {
+          "type": "string",
+          "default": "https://api.deepseek.com/v1/chat/completions",
+          "description": "DeepSeek API URL"
+        },
+        "aiCodeAssistant.model": {
+          "type": "string",
+          "default": "deepseek-coder",
+          "description": "AI Model to use",
+          "enum": [
+            "deepseek-coder",
+            "deepseek-chat"
+          ]
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/node": "^16.18.126",
+    "@types/vscode": "^1.75.0",
+    "@typescript-eslint/eslint-plugin": "^5.1.0",
+    "@typescript-eslint/parser": "^5.1.0",
+    "eslint": "^8.0.1",
+    "typescript": "^4.8.4",
+    "@vscode/vsce": "^2.19.0"
+  },
+  "dependencies": {
+    "axios": "^1.10.0"
+  }
+}
